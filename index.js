@@ -10,10 +10,13 @@ const io = new Server({
 let dict = {};
 
 io.on("connection", (socket) => {
-  // console.log(`Connected to ${socket.id}`);
-
   socket.on("code", (code) => {
-    if (!dict[code.toString()]) dict[code.toString()] = [socket];
+    if (!dict[code.toString()]) {
+      dict[code.toString()] = [socket];
+      setTimeout(() => {
+        delete dict[code.toString()];
+      } , 36000);
+    }
     else dict[code.toString()].push(socket);
   });
 
